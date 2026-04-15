@@ -1,6 +1,4 @@
-# CIS635 Semester Project
-
-# Data Fusion Methods for Estimating Funding Impacts on Educational Outcomes
+# CIS635 Semester Project - Data Fusion Methods for Estimating Funding Impacts on Educational Outcomes
 
 ![Course](https://img.shields.io/badge/CIS_635-GVSU_Spring_2026-blue)
 ![Data](https://img.shields.io/badge/Data-SEDA_6.0_+_NCES_F--33-green)
@@ -9,6 +7,11 @@
 Does how you aggregate school funding data change what machine learning can predict? We test three competing formulations — per-pupil, aggregate sum, and percentage allocation — using a multi-source district-level data fusion pipeline adapted from Chango et al. (2021).
 
 ---
+## Team
+
+Alysha Nadeem · Ishra Naznin · MD Imran Khaled · Kenaniah Williams
+
+Grand Valley State University — CIS 635: Knowledge Discovery and Data Mining — April 2026
 
 ## Research Question
 
@@ -133,9 +136,3 @@ Weighted soft voting across three per-source classifiers with weights A=2, B=1, 
 3. Roy, J. (2011). Impact of school finance reform on resource equalization and academic performance: Evidence from Michigan. *Education Finance and Policy*, 6(2), 137–167.
 
 ---
-
-## Team
-
-Alysha Nadeem · Ishra Naznin · MD Imran Khaled · Kenaniah Williams
-
-Grand Valley State University — CIS 635: Knowledge Discovery and Data Mining — April 2026
