@@ -49,6 +49,14 @@ Code Demo YouTube Video Link [here.](https://youtu.be/aXckeZrQh-I)
 
 The final merged dataset joins SEDA achievement data with F-33 finance data on district LEAID, then left-joins demographic covariates on the same key. Rows with missing values, division-by-zero artifacts, non-positive expenditure, fewer than 50 enrolled students, or per-pupil expenditure above $50,000 were removed.
 
+### Dataset Integration Summary
+
+| Source | Type of Data | Fusion Role |
+|--------|-------------|-------------|
+| SEDA 6.0 (Achievement) | Standardized test score estimates | Outcome variable |
+| NCES F-33 (Finance) | School financial records | Primary predictors |
+| SEDA Covariates | Socioeconomic & demographic variables | Control variables |
+
 ### Funding Aggregation Variants (Source B)
 
 - **Per-pupil**: All revenue and expenditure figures divided by enrollment. Conventional policy normalization. Variables: `exppp`, `instpp`, `suppp`, `cfpp`, `fedrevpp`, `locrevpp`.
@@ -134,6 +142,154 @@ Weighted soft voting across three per-source classifiers with weights A=2, B=1, 
 - Python, pandas, scikit-learn, matplotlib, seaborn
 - Google Colab
 - Data: [SEDA 6.0](https://edopportunity.org/), [NCES F-33](https://nces.ed.gov/ccd/f33agency.asp)
+
+---
+
+## Key Variables
+
+### SEDA Achievement Variables
+
+| Column | Meaning |
+|--------|--------|
+| `cs_mn_avg_eb` | Primary outcome: Empirical Bayes average achievement |
+| `cs_mn_mth` | Math achievement |
+| `cs_mn_lrn` | Learning rate across cohorts |
+| `cs_mn_tav` | Achievement trend over time |
+
+---
+
+### NCES F-33 Finance Variables
+
+| Column | Meaning |
+|--------|--------|
+| `V33` | Student enrollment |
+| `TCURELSC` | Total current education expenditures |
+| `TCURINST` | Instructional expenditures |
+| `TLOCREV` | Local revenue (property taxes) |
+| `TFEDREV` | Federal revenue |
+| `TSTREV` | State revenue |
+| `TOTALEXP` | Total expenditures |
+
+---
+
+### Per-Pupil Financial Features
+
+| Column | Meaning |
+|--------|--------|
+| `exppp` | Per-pupil current expenditure |
+| `instpp` | Per-pupil instructional expenditure |
+| `locrevpp` | Per-pupil local revenue (wealth proxy) |
+| `fedrevpp` | Per-pupil federal revenue |
+
+---
+
+### Socioeconomic Covariates
+
+| Column | Meaning |
+|--------|--------|
+| `perfrl` | % Free/reduced lunch (poverty proxy) |
+| `sesavgall` | Composite SES index |
+| `lninc50avgall` | Log median household income |
+| `povertyavgall` | Poverty rate |
+| `totenrl` | Enrollment |
+| `perwht`, `perblk`, `perhsp` | Racial composition |
+| `urban`, `suburb`, `town`, `rural` | Locale indicators |
+
+---
+
+## District Identifiers
+
+| Column | Meaning |
+|--------|--------|
+| `sedalea` / `LEAID` | District merge key |
+| `sedaleaname` | SEDA district name |
+| `NAME` | F-33 district name |
+| `stateabb` / `STABBR` | State abbreviation |
+| `fips` | State FIPS code |
+| `YEAR` | Fiscal year |
+
+---
+
+## SEDA Metadata
+
+| Column | Meaning |
+|--------|--------|
+| `multi_comp` | Multi-county district flag |
+| `subcat` | Subcategory type |
+| `subgroup` | Student subgroup |
+| `gap` | Achievement gap estimate |
+| `cellcount` | Observation coverage |
+| `tot_asmts` | Total assessments used |
+
+---
+
+## Achievement Variable Structure
+
+SEDA variables follow a naming pattern:
+
+| Suffix | Meaning |
+|--------|--------|
+| `_ol` | OLS estimate |
+| `_eb` | Empirical Bayes estimate (preferred) |
+| `_se` | Standard error |
+| `_se_adj` | Adjusted standard error |
+
+Example:
+- `cs_mn_avg_eb` → Primary outcome variable (district-level achievement)
+
+---
+
+## Computed Variables
+
+| Column | Meaning |
+|--------|--------|
+| `exppp` | Per-pupil current expenditure |
+| `instpp` | Per-pupil instructional spending |
+| `locrevpp` | Per-pupil local revenue (property wealth proxy) |
+| `fedrevpp` | Per-pupil federal revenue |
+
+---
+
+## Analytical Workflow
+
+1. Data collection (SEDA + F-33 + Covariates)
+2. Early fusion at district level
+3. Feature engineering (per-pupil metrics)
+4. Correlation analysis
+5. Regression modeling
+6. Interpretation of funding–achievement relationships
+
+---
+
+## Research Contribution
+
+This project provides a unified framework for analyzing how:
+
+- School funding
+- Socioeconomic conditions
+- Demographic composition
+
+jointly influence academic achievement across U.S. districts.
+
+---
+
+## Future Work
+
+| Method | Description |
+|--------|-------------|
+| Late Fusion | Combine model outputs from separate data streams |
+| Hybrid Fusion | Combine early + late fusion approaches |
+| Causal modeling | Improve inference beyond correlation/regression |
+
+---
+
+## License / Data Use
+
+All datasets used are publicly available through:
+- Stanford Educational Opportunity Project (SEDA)
+- National Center for Education Statistics (NCES CCD)
+
+Please refer to original sources for citation requirements.
 
 ---
 
