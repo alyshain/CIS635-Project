@@ -1,0 +1,219 @@
+Already done:
+
+The fusion performed in this project is Early Fusion (also called Data-Level Fusion).
+
+Combined three heterogeneous data sources — SEDA achievement data, F-33 finance data, and SEDA covariate/demographic data — into a single flat merged dataset before any analysis was run.
+
+All variables from all sources were joined together at the district level using leaid as the shared key, producing one unified dataframe that was then fed into the correlation and regression analyses.
+
+Source
+Type of Data
+Fusion Role
+SEDA 6.0 (achievement)
+Standardized test score estimates
+Outcome variable
+NCES F-33 (finance)
+Administrative financial records
+Primary predictor
+SEDA covariates (demographics)
+Census-derived socioeconomic data
+Control variables
+
+
+Per Meng et al., early fusion combines raw data from multiple sources into a single unified representation before any learning or analysis occurs. This is already done - joining SEDA, F-33, and the covariate file at the leaid level into one flat dataframe before running any models.
+The advantage Meng et al. note for this approach is that it preserves inter-source correlations (heatmap captures relationships like LocalRevPP correlating with both SES_Composite and Achievement simultaneously).
+What Else Can Be Implemented Here
+Late Fusion (Decision-Level Fusion)
+
+
+
+
+
+
+Miscellaneous Notes for reference
+Core idea: “Does per-pupil school funding predict student academic achievement, and what role does neighborhood wealth play?”
+Dataset 1 — Student Academic Performance
+Source: Stanford Educational Opportunity Project - 2009-2019
+Link: https://edopportunity.org/opportunity/
+
+The Stanford Education Data Archive (SEDA) includes a number of publicly available data files, the technical documentation and data codebooks, listed on the following page. Data files are available in Stata and .csv formats.
+
+In publications, please cite the data as:
+Reardon, S. F., Ho, A. D., Shear, B. R., Fahle, E. M., Kalogrides, D., saliba, j. (2026).
+Stanford Education Data Archive (Version 6.0). Retrieved from https://purl.stanford.edu/xh833nn4025.
+
+The currently available data include average achievement (for all students and by race/ethnicity and gender), racial/ethnic and gender achievement gaps, and demographic/socioeconomic data. We report multiple aggregations of the data: school, geographic district, administrative district, county, metropolitan statistical area, commuting zone, and state.
+
+The most recent release (currently, Version 6.0) should always be used for reporting and analysis. Previous versions of the data are still available to facilitate research replication. Please review the technical documentation and codebooks that accompany the data sets. These documents review the data construction process and describe the contents of each file.
+
+This page contains four sets of files:
+Technical Documentation and Codebooks
+Test Score Estimates: Means and Achievement Gaps
+Covariate Data Files
+Ancillary Data Files
+
+Dataset 2 — School Funding (Per-Pupil Expenditure)
+Source: NCES Common Core of Data (CCD) — School District Finance Survey (F-33)
+Link: https://nces.ed.gov/ccd/files.asp#Fiscal:1,LevelId:5,SchoolYearId:33,Page:1
+
+
+
+Column
+What it means
+sedalea
+Merge key
+perfrl
+% free/reduced lunch — your poverty proxy
+sesavgall
+Composite SES index for all students — this is the best single socioeconomic control
+lninc50avgall
+Log median household income — your wealth variable
+povertyavgall
+Poverty rate
+unempavgall
+Unemployment rate
+totenrl
+Total enrollment
+perwht, perblk, perhsp
+Racial composition — useful control variables
+urban, suburb, town, rural
+Locale type — good for context
+
+
+District Identifiers
+Column
+Meaning
+sedalea
+SEDA district ID (your merge key)
+sedaleaname
+District name from SEDA
+fips
+State FIPS code (numeric state identifier)
+stateabb
+State abbreviation
+LEAID
+Same as sedalea but from F-33 side
+NAME
+District name from F-33
+STABBR
+State abbreviation from F-33
+YEAR
+Fiscal year of F-33 data
+
+
+SEDA Metadata
+Column
+Meaning
+multi_comp
+Flag for districts spanning multiple counties
+subcat
+Subgroup category type
+subgroup
+Which student group (all, blk, wht, hsp, ecd etc.)
+gap
+Achievement gap estimate
+gradecenter
+Center grade used in estimation
+tot_asmts
+Total assessments used to build estimates
+cellcount
+Number of district-grade-year-subject cells
+mn_asmts
+Mean number of assessments per cell
+
+
+Achievement Score Columns
+The naming follows a pattern: cs = Cohort Scale, mn = mean, then the measure, then ol or eb, then optionally se or se_adj
+Suffix
+Meaning
+_ol
+OLS (ordinary least squares) estimate
+_eb
+Empirical Bayes estimate (shrinkage, more reliable for small districts)
+_se
+Standard error of the estimate
+_se_adj
+Adjusted standard error accounting for sampling error
+
+
+
+Measure
+Meaning
+cs_mn_avg
+Mean achievement averaged across math and ELA
+cs_mn_lrn
+Learning rate — how fast scores grow across cohorts
+cs_mn_tav
+Trend in average achievement over time
+cs_mn_tlr
+Trend in learning rate over time
+cs_mn_mth
+Mean achievement in math only
+
+So cs_mn_avg_eb = cohort scale mean average achievement, Empirical Bayes estimate — this is your primary outcome variable.
+F-33 Funding Columns (Raw)
+Column
+Meaning
+V33
+Student membership count
+TOTALREV
+Total revenue from all sources
+TFEDREV
+Total federal revenue
+TSTREV
+Total state revenue
+TLOCREV
+Total local revenue (mostly property taxes)
+TOTALEXP
+Total expenditures
+TCURELSC
+Current expenditures for elementary/secondary — cleanest spending measure
+TCURINST
+Instructional expenditures (teacher salaries, classroom costs)
+TCURSSVC
+Student support services expenditures
+
+
+Covariate Columns (from SEDA cov file)
+Column
+Meaning
+perfrl
+% students on free/reduced lunch — poverty proxy
+sesavgall
+Composite SES index (income + education + poverty + unemployment combined)
+lninc50avgall
+Log of median household income
+povertyavgall
+Poverty rate
+totenrl
+Total enrollment
+perwht
+% White students
+perblk
+% Black students
+perhsp
+% Hispanic students
+urban
+Flag — district is urban
+suburb
+Flag — district is suburban
+town
+Flag — district is a town
+rural
+Flag — district is rural
+
+
+
+Computed Per-Pupil Columns (created these)
+Column
+Meaning
+exppp
+Per-pupil current expenditure (TCURELSC / V33) 
+instpp
+Per-pupil instructional expenditure (TCURINST / V33)
+locrevpp
+Per-pupil local revenue (TLOCREV / V33) — property tax wealth proxy
+fedrevpp
+Per-pupil federal revenue (TFEDREV / V33)
+
+
