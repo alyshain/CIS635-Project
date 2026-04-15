@@ -19,6 +19,14 @@ Which aggregation of school district funding data — per-pupil, aggregate total
 
 ---
 
+## Video Presentation
+
+Presentation YouTube Video Link [here.](https://youtu.be/Zzsz9gtMA4E)
+Code Demo YouTube Video Link [here.](https://youtu.be/aXckeZrQh-I)
+
+
+---
+
 ## Key Results
 
 | Metric | Value |
